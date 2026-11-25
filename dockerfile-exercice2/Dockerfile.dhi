@@ -1,0 +1,12 @@
+# --- Etape 1 : build avec la variante dev (npm et shell disponibles) ---
+FROM dhi.io/node:24-debian-dev@sha256:814292ce93474f3f95274f5b444cbc49af8c8d6b241340047749c1b3930083ed AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# --- Etape 2 : runtime DHI, sans shell ni gestionnaire de paquets ---
+FROM dhi.io/nginx:1.30-alpine@sha256:d759456dd8b5f93a6d0142d1cded6086ae1901420a0ee46d97918c507fe51425
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 8080
