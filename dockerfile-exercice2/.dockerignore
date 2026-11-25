@@ -1,0 +1,8 @@
+.env
+Dockerfile.initial
+Dockerfile
+README.md
+scan-*.txt
+node_modules
+dist
+docker-compose.yml

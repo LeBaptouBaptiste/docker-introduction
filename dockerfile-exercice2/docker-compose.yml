@@ -1,0 +1,23 @@
+name: quiz
+
+services:
+  quiz-docker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quiz-docker:secure
+    container_name: quiz-docker
+    ports:
+      - "127.0.0.1:8082:8080"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpu_quota: 50000
+    pids_limit: 50
